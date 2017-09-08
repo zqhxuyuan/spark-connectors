@@ -1,0 +1,2 @@
+com.zqh.spark.connectors.serviceloader.HDFSService
+com.zqh.spark.connectors.serviceloader.LocalService
