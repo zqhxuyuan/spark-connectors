@@ -1,6 +1,5 @@
 package org.apache.spark.sql.codis
 
-import com.zqh.spark.connectors.ConnectorParameters
 import io.codis.jodis.{JedisResourcePool, RoundRobinJedisPool}
 import org.apache.spark.sql.sources._
 import org.apache.spark.sql.types.StructType
@@ -27,7 +26,6 @@ class DefaultSource extends DataSourceRegister
                               saveMode:   SaveMode,
                               parameters: Map[String, String],
                               dataframe:  DataFrame): BaseRelation = {
-    import ConnectorParameters.Codis._
     val zkHost = parameters(codisZkHost)
     val zkTimeout = parameters.getOrElse(codisZkTimeout, "30000").toInt
     val zkProxyDir = parameters(codisZkDir)

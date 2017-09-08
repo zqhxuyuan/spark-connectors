@@ -46,13 +46,14 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src/main/scala</sourceDirectory>
+        <finalName>connectors-kafka</finalName>
         <plugins>
-            <!--
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
             </plugin>
-            -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
