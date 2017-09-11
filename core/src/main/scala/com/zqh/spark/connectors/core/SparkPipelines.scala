@@ -29,6 +29,7 @@ class SparkPipelines(readers: List[ISparkReader],
       if(reader.isInstanceOf[SparkSQLReader]) {
         reader.asInstanceOf[SparkSQLReader].readSQL(spark)
       } else if(reader.isInstanceOf[SparkDFReader]) {
+        //TODO UNION OPERATION MUST MAKE SURE SAME COLUMN
         val source = reader.asInstanceOf[SparkDFReader].readDF(spark)
         if(union == null) union = source
         else union = union.union(source)

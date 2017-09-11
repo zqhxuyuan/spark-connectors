@@ -16,7 +16,7 @@ configFile="$projectRoot/core/src/main/resources/dag.conf"
 mysql="/Users/zhengqh/.m2/repository/mysql/mysql-connector-java/5.1.40/mysql-connector-java-5.1.40.jar"
 
 bin/spark-submit --master local \
---class com.zqh.spark.connectors.ConnectorSimpleClient \
+--class com.zqh.spark.connectors.client.ConnectorSimpleClient \
 --files $configFile --driver-java-options -Dconfig.file=$configFile \
 --driver-class-path $mysql \
 $projectRoot/core/target/connectors-core-jar-with-dependencies.jar spark

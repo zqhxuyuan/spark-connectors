@@ -1,7 +1,7 @@
-package com.zqh.spark.connectors
+package com.zqh.spark.connectors.client
 
-import com.zqh.spark.connectors.config.{ConfigUtils}
-import com.zqh.spark.connectors.engine.{KafkaEngine, FlinkEngine, SparkEngine}
+import com.zqh.spark.connectors.config.ConfigUtils
+import com.zqh.spark.connectors.engine.{FlinkEngine, KafkaEngine, SparkEngine}
 
 object ConnectorSimpleClient {
 
