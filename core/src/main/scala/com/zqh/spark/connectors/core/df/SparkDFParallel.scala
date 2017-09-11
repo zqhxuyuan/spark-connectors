@@ -1,18 +1,17 @@
-package com.zqh.spark.connectors.core
+package com.zqh.spark.connectors.core.df
 
 import java.util.concurrent.Executors
 
-import com.zqh.spark.connectors.{SparkReader, SparkWriter}
+import com.zqh.spark.connectors.df.{SparkDFReader, SparkDFWriter}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-import scala.concurrent.{Await, ExecutionContext, Future}
-import scala.concurrent.duration._
-import scala.util.{Success, Failure}
+import scala.concurrent.{ExecutionContext, Future}
+import scala.util.{Failure, Success}
 
 /**
   * Created by zhengqh on 17/8/30.
   */
-class SparkParallelPipeline(readers: List[SparkReader], writers: List[SparkWriter], spark: SparkSession) {
+class SparkDFParallel(readers: List[SparkDFReader], writers: List[SparkDFWriter], spark: SparkSession) {
 
     def runSparkJob(): Unit = {
       val pool = Executors.newFixedThreadPool(5)
@@ -24,7 +23,7 @@ class SparkParallelPipeline(readers: List[SparkReader], writers: List[SparkWrite
       // 读取源
       val readFutures: List[Future[DataFrame]] = readers.map(reader => {
         Future {
-          reader.read(spark)
+          reader.readDF(spark)
         }
       })
       val sequenceFutures: Future[List[DataFrame]] = Future.sequence(readFutures)
@@ -40,7 +39,7 @@ class SparkParallelPipeline(readers: List[SparkReader], writers: List[SparkWrite
 
       def writeFutures(unionDF: DataFrame) = writers.map(writer => {
         Future {
-          writer.write(unionDF)
+          writer.writeDF(unionDF)
           writer.close()
         }
       })

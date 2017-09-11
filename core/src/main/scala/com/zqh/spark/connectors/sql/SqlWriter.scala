@@ -1,18 +1,23 @@
 package com.zqh.spark.connectors.sql
 
-import com.zqh.spark.connectors.SparkWriter
-import org.apache.spark.sql.DataFrame
+import com.zqh.spark.connectors.df.SparkDFWriter
+import com.zqh.spark.connectors.util.ConnectorUtils._
+import org.apache.spark.sql.{SparkSession, DataFrame}
 
 /**
   * Created by zhengqh on 17/9/8.
   */
-class SqlWriter(config: Map[String, String]) extends SparkWriter{
-  override def write(df: DataFrame): Unit = {
-    val table = config.getOrElse("table", "")
-    if(table.equals("")) return
+class SqlWriter(config: Map[String, String]) extends SparkSQLWriter {
 
-    df.write.saveAsTable(table)
+  override def writeSQL(spark: SparkSession): Unit = {
+    val inputTable = config.getOrElse("inputTable", "")
+    val format = config.getOrElse("format", "")
+    val mode = config.getOrElse("mode", "append")
+
+    spark.sql(s"select * from $inputTable").
+      write.mode(mode).format(format).options(config - format).save()
   }
+
 }
 
 object SqlWriter {

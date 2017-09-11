@@ -1,13 +1,14 @@
 package com.zqh.spark.connectors
 
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.SparkSession
 
 /**
   * Created by zhengqh on 17/8/29.
   */
 trait SparkWriter{
 
-  def write(df: DataFrame)
+  // TODO: unify DF and SQL
+  def write(spark: SparkSession)
 
   def close() = {}
 }

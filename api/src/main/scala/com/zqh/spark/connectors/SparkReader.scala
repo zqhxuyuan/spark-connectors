@@ -1,14 +1,16 @@
 package com.zqh.spark.connectors
 
-import org.apache.spark.sql.{SparkSession, DataFrame}
+import org.apache.spark.sql.SparkSession
 
 /**
   * Created by zhengqh on 17/8/29.
   */
 trait SparkReader {
 
-  def init(spark: SparkSession): Unit = {}
+  def init(spark: SparkSession): Unit
 
-  def read(spark: SparkSession) : DataFrame
+  // SparkDFReader and SparkSQLReader can overwrite read method
+  // SparkDFReader return DataFrame, SparkSQLReader return Unit
+  def read(spark: SparkSession) : Any
 
 }

@@ -1,12 +1,13 @@
 package com.zqh.spark.connectors
 
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.SparkSession
 
 /**
   * Created by zhengqh on 17/8/29.
   */
 trait SparkTransformer {
 
-  def transform(df: DataFrame) : DataFrame
+  // TODO: unify DF(DataFrame) and SQL(SparkSession)
+  def transform(spark: SparkSession) : Any = {}
 
 }

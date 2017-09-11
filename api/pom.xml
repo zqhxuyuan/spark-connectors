@@ -25,6 +25,7 @@
             <artifactId>spark-sql_${scala.binary.version}</artifactId>
             <scope>${scope}</scope>
         </dependency>
+
     </dependencies>
 
     <build>

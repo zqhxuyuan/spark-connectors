@@ -1,18 +1,20 @@
 package com.zqh.spark.connectors.dataframe
 
-import com.zqh.spark.connectors.SparkWriter
+import com.zqh.spark.connectors.df.SparkDFWriter
 import org.apache.spark.sql.DataFrame
 
 /**
   * Created by zhengqh on 17/9/8.
   */
-class DFWriter(configMap: Map[String, String]) extends SparkWriter{
-  override def write(df: DataFrame): Unit = {
-    val format = configMap.getOrElse("format", "")
-    val mode = configMap.getOrElse("mode", "append")
+class DFWriter(config: Map[String, String]) extends SparkDFWriter {
 
-    df.write.mode(mode).format(format).options(configMap).save()
+  override def writeDF(df: DataFrame): Unit = {
+    val format = config.getOrElse("format", "")
+    val mode = config.getOrElse("mode", "append")
+
+    df.write.mode(mode).format(format).options(config).save()
   }
+
 }
 
 object DFWriter {

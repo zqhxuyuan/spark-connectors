@@ -1,0 +1,10 @@
+[{
+  "name": "id",
+  "type": "long"
+},{
+  "name": "name",
+  "type": "string"
+},{
+  "name": "age",
+  "type": "int"
+}]

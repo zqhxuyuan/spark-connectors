@@ -10,7 +10,7 @@ import scala.collection.JavaConversions._
   */
 object DataframeSchema {
 
-  def buildSchema(json: String): StructType ={
+  def buildSimpleSchema(json: String): StructType ={
     val structList = JSON.parse(json).
       asInstanceOf[java.util.List[java.util.Map[String, String]]]
 
@@ -19,5 +19,22 @@ object DataframeSchema {
       StructField(map("name"), dataType, true)
     })
     StructType(structFields)
+  }
+
+  def getSchemaNames(json: String) = {
+    val structList = JSON.parse(json).
+      asInstanceOf[java.util.List[java.util.Map[String, String]]]
+    structList.toList.map(e => e("name"))
+  }
+
+  def getSchemaTypes(json: String) = {
+    val structList = JSON.parse(json).
+      asInstanceOf[java.util.List[java.util.Map[String, String]]]
+    structList.toList.map(e => e("type"))
+  }
+
+  def buildData(json: String): List[Map[String, Any]] = {
+    val list = JSON.parse(json).asInstanceOf[java.util.List[java.util.Map[String, Any]]]
+    list.toList.map(e => e.toMap)
   }
 }
