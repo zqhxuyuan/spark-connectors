@@ -55,12 +55,6 @@ case class ExampleRelation(@transient val parameters: Map[String,String])
       }
     }
 
-    // demo data. 确保Row中的顺序与Schema一致
-//    sqlContext.sparkContext.parallelize(Seq(
-//      Row(1, "zqh", 11, "m", "td"),
-//      Row(2, "lisi", 22, "f", "td")
-//    ))
-
     val data = parameters.getOrElse("data", "")
     val json = parameters.getOrElse("schema", "")
     val names = DataframeSchema.getSchemaNames(json)

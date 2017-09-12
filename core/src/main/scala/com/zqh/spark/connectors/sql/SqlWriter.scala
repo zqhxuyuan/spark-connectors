@@ -1,8 +1,6 @@
 package com.zqh.spark.connectors.sql
 
-import com.zqh.spark.connectors.df.SparkDFWriter
-import com.zqh.spark.connectors.util.ConnectorUtils._
-import org.apache.spark.sql.{SparkSession, DataFrame}
+import org.apache.spark.sql.{SparkSession}
 
 /**
   * Created by zhengqh on 17/9/8.

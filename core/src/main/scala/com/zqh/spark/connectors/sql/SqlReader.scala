@@ -1,10 +1,6 @@
 package com.zqh.spark.connectors.sql
 
-import com.zqh.spark.connectors.ISparkReader
-import com.zqh.spark.connectors.dataframe.DFReader
-import com.zqh.spark.connectors.df.SparkDFReader
 import com.zqh.spark.connectors.schema.DataframeSchema
-import com.zqh.spark.connectors.util.ConnectorUtils._
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 /**
