@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>com.zqh.spark.connectors</groupId>
+        <artifactId>spark-connectors</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.zqh.spark.connectors</groupId>
+    <artifactId>filodb</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <akka.version>2.3.15</akka.version>
+        <kafka.version>0.10.2.1</kafka.version>
+        <config.version>1.3.1</config.version>
+        <scalatest.version>2.2.4</scalatest.version>
+    </properties>
+
+    <!--
+    <repositories>
+        <repository>
+            <id>Velvia Bintray</id>
+            <url>https://dl.bintray.com/velvia/maven/</url>
+        </repository>
+        <repository>
+            <id>spray</id>
+            <url>http://repo.spray.io</url>
+        </repository>
+    </repositories>
+    -->
+
+    <modules>
+        <module>core</module>
+        <module>coordinator</module>
+        <module>cassandra</module>
+        <module>spark</module>
+        <module>cli</module>
+        <module>kafka</module>
+        <!--<module>test</module>-->
+    </modules>
+
+
+</project>
