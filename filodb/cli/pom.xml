@@ -57,7 +57,7 @@
                 <artifactId>appassembler-maven-plugin</artifactId>
                 <version>2.0.0</version>
                 <configuration>
-                    <assembleDirectory>${pom.basedir}/bin</assembleDirectory>
+                    <assembleDirectory>${pom.basedir}</assembleDirectory>
                     <goal>assemble</goal>
                     <binFileExtensions>
                         <unix>.sh</unix>
@@ -67,8 +67,8 @@
                     <configurationDirectory>conf</configurationDirectory>
                     <copyConfigurationDirectory>true</copyConfigurationDirectory>
                     <includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
-                    <generateRepository>false</generateRepository>
                     <extraJvmArguments>-Xms56m</extraJvmArguments>
+                    <generateRepository>false</generateRepository>
                     <programs>
                         <program>
                             <mainClass>filodb.cli.CliMain</mainClass>
@@ -77,8 +77,6 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>appassembler</id>
-                        <phase>validate</phase>
                         <goals>
                             <goal>assemble</goal>
                         </goals>
