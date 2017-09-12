@@ -40,9 +40,38 @@
 
     <build>
         <finalName>filodb-cli</finalName>
+        <resources>
+            <resource>
+                <directory>${basedir}/../core/src/main/resources</directory>
+                <targetPath>${basedir}/conf</targetPath>
+            </resource>
+            <resource>
+                <directory>${basedir}/../coordinator/src/main/resources</directory>
+                <targetPath>${basedir}/conf</targetPath>
+            </resource>
+            <resource>
+                <directory>${basedir}/../cassandra/src/main/resources</directory>
+                <targetPath>${basedir}/conf</targetPath>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -50,6 +79,13 @@
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -68,7 +104,7 @@
                     <copyConfigurationDirectory>true</copyConfigurationDirectory>
                     <includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
                     <extraJvmArguments>-Xms56m</extraJvmArguments>
-                    <generateRepository>false</generateRepository>
+                    <generateRepository>true</generateRepository>
                     <programs>
                         <program>
                             <mainClass>filodb.cli.CliMain</mainClass>

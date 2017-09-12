@@ -255,10 +255,8 @@ object FiloRelation extends StrictLogging {
  * reads data from each partition.  Within each partition read, actors/futures are used to
  * parallelize reads from different columns.
  *
- * @constructor
- * @param sparkContext the spark context to pull config from
  * @param dataset the DatasetRef with name and database/keyspace of the dataset to read from
- * @param the version of the dataset data to read
+ * @param version version of the dataset data to read
  */
 case class FiloRelation(dataset: DatasetRef,
                         version: Int = 0,
