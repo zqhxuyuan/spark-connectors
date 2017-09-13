@@ -22,7 +22,51 @@
         <scalatest.version>2.2.4</scalatest.version>
     </properties>
 
-    <!--
+    <modules>
+        <module>core</module>
+        <module>coordinator</module>
+        <module>cassandra</module>
+        <module>spark</module>
+        <module>cli</module>
+        <module>kafka</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.kamon</groupId>
+                <artifactId>kamon-core_${scala.binary.version}</artifactId>
+                <version>0.6.0</version>
+            </dependency>
+
+            <!--Tests-->
+            <dependency>
+                <groupId>com.github.scala-incubator.io</groupId>
+                <artifactId>scala-io-file_${scala.binary.version}</artifactId>
+                <version>0.4.3-1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.scalatest</groupId>
+                <artifactId>scalatest_${scala.binary.version}</artifactId>
+                <version>${scalatest.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-testkit_${scala.binary.version}</artifactId>
+                <version>${akka.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.typesafe.akka</groupId>
+                <artifactId>akka-multi-node-testkit_${scala.binary.version}</artifactId>
+                <version>${akka.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <repositories>
         <repository>
             <id>Velvia Bintray</id>
@@ -33,17 +77,6 @@
             <url>http://repo.spray.io</url>
         </repository>
     </repositories>
-    -->
-
-    <modules>
-        <module>core</module>
-        <module>coordinator</module>
-        <module>cassandra</module>
-        <module>spark</module>
-        <module>cli</module>
-        <module>kafka</module>
-        <!--<module>test</module>-->
-    </modules>
 
     <!--
     <build>

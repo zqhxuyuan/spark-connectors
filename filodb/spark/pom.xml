@@ -53,6 +53,7 @@
             <version>${spark.version}</version>
         </dependency>
 
+        <!--Tests-->
         <dependency>
             <groupId>com.zqh.spark.connectors</groupId>
             <artifactId>filodb-core</artifactId>
@@ -63,14 +64,10 @@
         <dependency>
             <groupId>com.github.scala-incubator.io</groupId>
             <artifactId>scala-io-file_2.11</artifactId>
-            <version>0.4.3-1</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_2.11</artifactId>
-            <version>${scalatest.version}</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 

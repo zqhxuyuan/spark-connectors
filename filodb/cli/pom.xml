@@ -33,7 +33,7 @@
 
         <dependency>
             <groupId>com.quantifind</groupId>
-            <artifactId>sumac_2.11</artifactId>
+            <artifactId>sumac_${scala.binary.version}</artifactId>
             <version>0.3.0</version>
         </dependency>
     </dependencies>

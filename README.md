@@ -2,13 +2,14 @@
 
 # Architecture
 
+
+# Run
+
 Spark数据格式:
 
 - DataFrame(默认无任何前缀, 或者df.)
 - SQL(前缀为sql.)
 - StructureStream(前缀为ss.)
-
-# Run
 
 ```
 projectRoot="/Users/zhengqh/github/spark-connectors"
@@ -21,6 +22,10 @@ bin/spark-submit --master local \
 --driver-class-path $mysql \
 $projectRoot/core/target/connectors-core-jar-with-dependencies.jar spark
 ```
+
+# DataSource
+
+- https://docs.databricks.com/spark/latest/data-sources/index.html
 
 # Config
 
@@ -124,5 +129,15 @@ connectors: [
 
 # RoadMap
 
-- Kafka Connect/Kafka Streams/KSQL
-- Flink Connectors/Flink SQL
+- [_] Apache Kafka Connect/Kafka Streams/KSQL
+- [_] Apache Flink Connectors/Flink SQL
+- [_] Apache Storm
+- [_] [SnappyData](http://snappydatainc.github.io/snappydata/)
+- [_] [CarbonData](http://carbondata.apache.org/)
+- [_] [Spark Druid](https://github.com/SparklineData/spark-druid-olap)
+
+# Tech Used
+
+- https://github.com/sakserv/hadoop-mini-clusters
+- xx
+
