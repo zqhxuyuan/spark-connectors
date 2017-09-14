@@ -7,7 +7,7 @@ import org.apache.spark.sql._
 
 class SnappyQueryPerfJob extends SnappySQLJob {
 
-  override def runSnappyJob(sc: SnappyContext, jobConfig: Config): Any = {
+  override def runSnappyJob(sc: SnappySession, jobConfig: Config): Any = {
     val outFileName = s"QueryPerf-${System.currentTimeMillis()}.out"
     val pw = new PrintWriter(outFileName)
     var start = System.currentTimeMillis()
@@ -32,7 +32,7 @@ class SnappyQueryPerfJob extends SnappySQLJob {
     pw.close()
   }
 
-  override def isValidJob(sc: SnappyContext, config: Config): SnappyJobValidation = {
+  override def isValidJob(sc: SnappySession, config: Config): SnappyJobValidation = {
     SnappyJobValid()
   }
 }

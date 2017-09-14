@@ -35,7 +35,8 @@ object SnappyAPILogAggregator extends App {
   val conf = new SparkConf()
     .setAppName(getClass.getSimpleName)
     .setMaster(s"$sparkLocalURL") // local split
-    .set("snappydata.store.locators", s"$snappyLocators")
+    //.set("snappydata.store.locators", s"$snappyLocators") // 0.6.1
+    .set("spark.snappydata.connection", s"$snappyLocatorJDBC") // 0.9
     .set("spark.ui.port", "4042")
     .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .registerAvroSchemas(AdImpressionLog.getClassSchema)
@@ -59,7 +60,7 @@ object SnappyAPILogAggregator extends App {
 
   // Filter out bad messages ...use a second window
   val logs = messages.map(_._2).filter(_.getGeo != Configs.UnknownGeo)
-    .window(Duration(1000), Duration(1000))
+    .window(Duration(10000), Duration(10000))
 
   // We want to process the stream as a DataFrame/Table ... easy to run
   // analytics on stream ...will be standard part of Spark 2.0 (Structured streaming)

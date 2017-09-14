@@ -27,16 +27,17 @@ object Configs {
   val sparkMasterURL = s"spark://$hostname:7077"
   val sparkLocalURL = "local[*]"
   val snappyLocators = s"$hostname:10334"
+  val snappyLocatorJDBC = s"$hostname:1527"
+  val brokerList = s"$hostname:19092"
 
   val maxRatePerPartition = 1000
   val kafkaTopic = "adImpressionsTopic"
-  val brokerList = "localhost:9092"
   val kafkaParams: Map[String, String] = Map(
     "metadata.broker.list" -> brokerList,
     "auto.offset.reset" -> "smallest"
   )
   val numLogsPerThread = 20000000
-  val batchDuration = Seconds(1)
+  val batchDuration = Seconds(10)
   val topics = Set(kafkaTopic)
   val numProducerThreads = 1
   val maxLogsPerSecPerThread = 5000

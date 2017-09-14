@@ -1,0 +1,160 @@
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+ contributor license agreements.  See the NOTICE file distributed with
+ this work for additional information regarding copyright ownership.
+ The ASF licenses this file to You under the Apache License, Version 2.0
+ (the "License"); you may not use this file except in compliance with
+ the License.  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+    <id>bin</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+
+    <!-- put deps in the lib folder -->
+    <dependencySets>
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>libs</outputDirectory>
+            <unpack>false</unpack>
+        </dependencySet>
+    </dependencySets>
+
+    <fileSets>
+        <!--
+            $STREAMLINE_HOME/bin
+        -->
+        <fileSet>
+            <directory>${project.basedir}./bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes>
+                <include>*</include>
+            </includes>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}./examples/processors/target</directory>
+            <outputDirectory>/examples/processors</outputDirectory>
+            <includes>
+                <include>streamline-examples-processors*jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}./notifiers/target</directory>
+            <outputDirectory>/examples/topology/notifications</outputDirectory>
+            <includes>
+                <include>notifiers*jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}./simulator/target</directory>
+            <outputDirectory>/examples/topology/simulator</outputDirectory>
+            <includes>
+                <include>simulator*jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}./storage/tool/target</directory>
+            <outputDirectory>/bootstrap/lib</outputDirectory>
+            <includes>
+                <include>storage-tool*jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}./storage/core/target/dependency</directory>
+            <outputDirectory>/libs</outputDirectory>
+            <includes>
+                <include>postgresql*</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}./streams/notifier/target</directory>
+            <outputDirectory>/bootstrap/notifier-jars</outputDirectory>
+            <includes>
+                <include>streamline-notifier*jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}./streams/functions/target</directory>
+            <outputDirectory>/bootstrap/udf-jars</outputDirectory>
+            <includes>
+                <include>streamline-functions*jar</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}./bootstrap</directory>
+            <outputDirectory>/bootstrap</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}./bootstrap/sql/mysql</directory>
+            <outputDirectory>/bootstrap/sql/mysql</outputDirectory>
+            <includes>
+                <include>**/*.sql</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}./bootstrap/sql/postgresql</directory>
+            <outputDirectory>/bootstrap/sql/postgresql</outputDirectory>
+            <includes>
+                <include>**/*.sql</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+
+    <files>
+        <!--
+            $STREAMLINE_HOME/conf
+        -->
+        <file>
+            <source>${project.basedir}./conf/streamline-dev.yaml</source>
+            <outputDirectory>/conf</outputDirectory>
+            <destName>streamline-dev.yaml</destName>
+        </file>
+        <file>
+            <source>${project.basedir}./conf/streamline.yaml</source>
+            <outputDirectory>/conf</outputDirectory>
+            <destName>streamline.yaml</destName>
+        </file>
+        <file>
+            <source>${project.basedir}./conf/streamline-env.sh</source>
+            <outputDirectory>/conf</outputDirectory>
+            <destName>streamline-env.sh</destName>
+        </file>
+        <file>
+            <source>${project.basedir}./conf/streamline_jaas.conf</source>
+            <outputDirectory>/conf</outputDirectory>
+            <destName>streamline_jaas.conf</destName>
+        </file>
+        <file>
+            <source>${project.basedir}./LICENSE</source>
+            <outputDirectory>/</outputDirectory>
+        </file>
+        <file>
+            <source>${project.basedir}./NOTICE</source>
+            <outputDirectory>/</outputDirectory>
+        </file>
+        <file>
+            <source>${project.basedir}./README.md</source>
+            <outputDirectory>/</outputDirectory>
+        </file>
+        <file>
+            <source>${project.basedir}./streamline-dist/VERSION</source>
+            <outputDirectory>/</outputDirectory>
+        </file>
+    </files>
+</assembly>

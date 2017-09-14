@@ -13,6 +13,7 @@ object ConnectorSimpleClient {
 
     val engine = if(args(0) != null) args(0) else "spark"
 
+
     engine match {
       case "spark" => SparkEngine.run(readerConfigs, writerConfigs, transformerConfigs)
       case "flink" => FlinkEngine.run(readerConfigs, writerConfigs)
