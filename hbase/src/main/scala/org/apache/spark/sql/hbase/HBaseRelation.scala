@@ -13,65 +13,6 @@ import org.apache.spark.sql.types.{DataType, IntegerType, LongType, StringType, 
 import scala.collection.mutable.ArrayBuffer
 import hbase._
 
-object Resolver extends  Serializable {
-  def resolve (hbaseField: HBaseSchemaField, result: Result ): Any = {
-    val cfColArray = hbaseField.fieldName.split(":",-1)
-    val cfName = cfColArray(0)
-    val colName = cfColArray(1)
-    var fieldRs: Any = null
-    //resolve row key otherwise resolve column
-    if(cfName=="" && colName=="key") {
-      fieldRs = resolveRowKey(result, hbaseField.fieldType)
-    } else {
-      fieldRs = resolveColumn(result, cfName, colName,hbaseField.fieldType)
-    }
-    fieldRs
-  }
-
-  def resolveRowKey (result: Result, resultType: String): Any = {
-    val rowkey = resultType match {
-      case "string" =>
-        result.getRow.map(_.toChar).mkString
-      case "int" =>
-        result  .getRow.map(_.toChar).mkString.toInt
-      case "long" =>
-        result.getRow.map(_.toChar).mkString.toLong
-    }
-    rowkey
-  }
-
-  def resolveColumn (result: Result, columnFamily: String, columnName: String, resultType: String): Any = {
-    val column = result.containsColumn(columnFamily.getBytes, columnName.getBytes) match{
-      case true =>{
-        resultType match {
-          case "string" =>
-            Bytes.toString(result.getValue(columnFamily.getBytes,columnName.getBytes))
-          //result.getValue(columnFamily.getBytes,columnName.getBytes).map(_.toChar).mkString
-          case "int" =>
-            Bytes.toInt(result.getValue(columnFamily.getBytes,columnName.getBytes))
-          case "long" =>
-            Bytes.toLong(result.getValue(columnFamily.getBytes,columnName.getBytes))
-          case "float" =>
-            Bytes.toFloat(result.getValue(columnFamily.getBytes,columnName.getBytes))
-          case "double" =>
-            Bytes.toDouble(result.getValue(columnFamily.getBytes,columnName.getBytes))
-        }
-      }
-      case _ => {
-        resultType match {
-          case "string" =>
-            ""
-          case "int" =>
-            0
-          case "long" =>
-            0
-        }
-      }
-    }
-    column
-  }
-}
-
 /**
   *
   * val hbaseDDL = s"""
@@ -87,12 +28,10 @@ case class HBaseRelation(@transient val hbaseProps: Map[String,String])
                         (@transient val sqlContext: SQLContext)
   extends BaseRelation with Serializable with TableScan {
   // 解析传入的参数
-  val zookeeper = hbaseProps.getOrElse("hbase_zookeeper", sys.error("not valid schema"))
-  val hbaseTableName = hbaseProps.getOrElse("hbase_table_name", sys.error("not valid schema"))
   // (:key, cf:a, cf:b, cf:c)
-  val hbaseTableSchema = hbaseProps.getOrElse("hbase_table_schema", sys.error("not valid schema"))
+  val hbaseTableSchema = hbaseProps.getOrElse("schema", sys.error("not valid schema"))
   // (key string, a string, b string, c string)
-  val registerTableSchema = hbaseProps.getOrElse("sparksql_table_schema", sys.error("not valid schema"))
+  val registerTableSchema = hbaseProps.getOrElse("sql.schema", sys.error("not valid schema"))
   val rowRange = hbaseProps.getOrElse("row_range", "->")
   // get start row and end row
   val range = rowRange.split("->", -1)
@@ -182,8 +121,12 @@ case class HBaseRelation(@transient val hbaseProps: Map[String,String])
   // By making this a lazy val we keep the RDD around, amortizing the cost of locating splits.
   lazy val buildScan = {
     val hbaseConf = HBaseConfiguration.create()
-    hbaseConf.set("hbase.zookeeper.quorum", zookeeper)
-    hbaseConf.set(TableInputFormat.INPUT_TABLE, hbaseTableName)
+    hbaseConf.set("hbase.rootdir", hbaseProps.getOrElse("hbase.rootdir","/hbase"))
+    hbaseConf.set("hbase.zookeeper.quorum", hbaseProps.getOrElse("hbase.zookeeper.quorum","localhost"))
+    hbaseConf.set("zookeeper.znode.parent", hbaseProps.getOrElse("zookeeper.znode.parent","/hbase"))
+    hbaseConf.set("hbase.zookeeper.property.clientPort", hbaseProps.getOrElse("hbase.zookeeper.property.clientPort","2181"))
+
+    hbaseConf.set(TableInputFormat.INPUT_TABLE, hbaseProps.getOrElse("hbase.mapreduce.inputtable", ""))
     hbaseConf.set(TableInputFormat.SCAN_COLUMNS, queryColumns)
     hbaseConf.set(TableInputFormat.SCAN_ROW_START, startRowKey)
     hbaseConf.set(TableInputFormat.SCAN_ROW_STOP, endRowKey)

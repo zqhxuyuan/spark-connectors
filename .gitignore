@@ -9,6 +9,7 @@
 .idea/
 target/
 repo/
+work/
 spark-warehouse/
 # Sensitive or high-churn files:
 .idea/**/dataSources/

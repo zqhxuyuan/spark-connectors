@@ -14,10 +14,10 @@ package object hbase {
 
   case class Parameter(name: String)
 
-  protected  val SPARK_SQL_TABLE_SCHEMA = Parameter("sparksql_table_schema")
-  protected  val HBASE_ZOOKEEPER = Parameter("hbase_zookeeper")
-  protected  val HBASE_TABLE_NAME = Parameter("hbase_table_name")
-  protected  val HBASE_TABLE_SCHEMA = Parameter("hbase_table_schema")
+  protected  val SPARK_SQL_TABLE_SCHEMA = Parameter("sql.schema")
+  protected  val HBASE_ZOOKEEPER = Parameter("hbase.rootdir")
+  protected  val HBASE_TABLE_NAME = Parameter("hbase.mapreduce.inputtable")
+  protected  val HBASE_TABLE_SCHEMA = Parameter("schema")
   protected  val ROW_RANGE = Parameter("row_range")  
 
   /**
