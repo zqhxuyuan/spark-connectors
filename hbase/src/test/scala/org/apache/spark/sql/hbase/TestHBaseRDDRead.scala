@@ -19,7 +19,6 @@ object TestHBaseRDDRead {
       val sc = new SparkContext(sparkConf)
       val sqlContext = new SQLContext(sc)
 
-      // TODO other parameter need to pass in
       val options = Map[String, String](
         // hbase配置项,必须与hbase的配置一样
         "hbase.zookeeper.quorum" -> hbaseCluster.getZookeeperConnectionString,

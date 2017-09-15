@@ -25,11 +25,12 @@ class DefaultSource extends RelationProvider
                               mode: SaveMode,
                               parameters: Map[String, String],
                               data: DataFrame): BaseRelation = {
-    //TODO
+    //TODO write to hbase
     HBaseRDDRelation(parameters)(sqlContext)
   }
 }
 
+// extends TableScan to implement read from hbase
 case class HBaseRDDRelation(parameters: Map[String, String])(@transient val sc: SQLContext)
   extends BaseRelation with TableScan with Serializable{
 
@@ -51,10 +52,12 @@ case class HBaseRDDRelation(parameters: Map[String, String])(@transient val sc: 
     val stringType = StringType
     val columnValueType = MapType(stringType, stringType)
     val columnFamilyType = MapType(stringType, columnValueType)
+    // column name is not really important
     StructType(List(StructField("key", stringType), StructField("cf", columnFamilyType)))
   }
 
   // schema的定义必须与RDD[Row]中的Row一致. 比如上面的schema是(id,name,age),则Row也必须是三元组
+  // 如果Row是(String, Map[String, Map[String, String]]), 则schema为StringType, MapType(StringType,MapType(StringType,StringType))
 
   // read datasource
   lazy val buildScan: RDD[Row] = {
