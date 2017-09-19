@@ -1,6 +1,7 @@
 package org.apache.spark.sql.kafka08
 
 import kafka.common.TopicAndPartition
+import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.execution.streaming._
 import org.apache.spark.sql.kafka08.source.{KafkaSourceOffset, KafkaSource}
 import org.apache.spark.sql.streaming.StreamTest
@@ -44,7 +45,7 @@ abstract class KafkaSourceTest extends StreamTest with SharedSQLContext {
    *
    * `topicAction` can be used to run actions for each topic before inserting data.
    */
-  case class AddKafkaData(topic: String, data: Int*) extends AddData {
+  case class AddKafkaData(topic: String, data: String*) extends AddData {
 
     override def addData(query: Option[StreamExecution]): (Source, Offset) = {
       if (query.get.isActive) {
@@ -65,7 +66,7 @@ abstract class KafkaSourceTest extends StreamTest with SharedSQLContext {
             "are multiple Kafka sources:\n\t" + sources.mkString("\n\t"))
       }
       val kafkaSource = sources.head
-      testUtils.sendMessages(topic, data.map { _.toString }.toArray)
+      testUtils.sendMessages(topic, data.toArray)
 
       val Array(brokerHost, brokerPort) = testUtils.brokerAddress.split(":")
       val offset = KafkaSourceOffset(Map(TopicAndPartition(topic, 0) ->
@@ -75,5 +76,12 @@ abstract class KafkaSourceTest extends StreamTest with SharedSQLContext {
 
     override def toString: String =
       s"AddKafkaData(topic = $topic, data = $data)"
+  }
+
+  case class PrintData(ds: DataFrame) extends ExternalAction {
+    override def runAction(): Unit = {
+      ds.printSchema()
+      ds.show
+    }
   }
 }

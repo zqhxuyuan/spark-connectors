@@ -1,9 +1,14 @@
 package org.apache.spark.sql.kafka08
 
+import com.alibaba.fastjson.JSON
+import org.apache.spark.sql.streaming.ProcessingTime
+import org.apache.spark.sql.{DataFrame, Row}
+import org.apache.spark.sql.kafka08.schema.KafkaSchema
 import org.scalatest.concurrent.Eventually
 import org.scalatest.time._
 
 import scala.util.Random
+import scala.collection.JavaConversions._
 
 class KafkaSourceSuite extends KafkaSourceTest {
 
@@ -28,7 +33,7 @@ class KafkaSourceSuite extends KafkaSourceTest {
 
     testStream(mapped)(
       makeSureGetOffsetCalled,
-      AddKafkaData(topic, 1, 2, 3),
+      AddKafkaData(topic, "1", "2", "3"),
       CheckAnswer(2, 3, 4),
       StopStream
     )

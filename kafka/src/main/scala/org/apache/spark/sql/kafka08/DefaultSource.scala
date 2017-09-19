@@ -6,6 +6,7 @@ import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.execution.streaming.{Sink, Source}
+import org.apache.spark.sql.kafka08.schema.KafkaSchema
 import org.apache.spark.sql.kafka08.sink.KafkaSink
 import org.apache.spark.sql.kafka08.source.KafkaSource
 import org.apache.spark.sql.sources.{DataSourceRegister, StreamSinkProvider, StreamSourceProvider}
@@ -36,7 +37,7 @@ class DefaultSource extends StreamSourceProvider
                             parameters: Map[String, String]): (String, StructType) = {
     require(schema.isEmpty, "Kafka source has a fixed schema and cannot be set with a custom one")
     validateOptions(parameters)
-    ("kafka", KafkaSource.kafkaSchema)
+    ("kafka", KafkaSchema.getKafkaSchema(parameters))
   }
 
   // read from kafka, use consumer api
@@ -81,6 +82,7 @@ class DefaultSource extends StreamSourceProvider
         //.setIfUnset(ConsumerConfig.SOCKET_RECEIVE_BUFFER_CONFIG, "65536")
         .set(ConsumerConfig.GROUP_ID_CONFIG, "")
         .set("zookeeper.connect", "")
+        .set(SCHEMA, caseInsensitiveParams.getOrElse(SCHEMA, ""))
         .build()
 
     new KafkaSource(
@@ -192,6 +194,7 @@ class DefaultSource extends StreamSourceProvider
 
 object DefaultSource {
   private val TOPICS = "topics"
+  private val SCHEMA = KafkaSchema.SCHEMA
   private val STARTING_OFFSET_OPTION_KEY = "startingoffsets"
   private val STARTING_OFFSET_OPTION_VALUES = Set("largest", "smallest")
 }
